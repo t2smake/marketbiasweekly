@@ -1,0 +1,28 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/latest"
+  to = "/reports/latest.html"
+  status = 200
+
+[[redirects]]
+  from = "/this-week"
+  to = "/reports/latest.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/reports/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+[[headers]]
+  for = "/social/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"

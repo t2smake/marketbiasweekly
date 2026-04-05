@@ -1,0 +1,15 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node (only used for Puppeteer PDF generation locally)
+node_modules/
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+
+# Local config with API keys (don't commit)
+config.local.json

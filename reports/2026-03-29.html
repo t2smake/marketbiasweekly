@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPY Daily Levels Study — March 29, 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080b10;--bg2:#0d1117;--bg3:#151b23;--bg4:#1c2333;--bg5:#232d3f;
+  --border:#1e2736;--border2:#2a3545;
+  --white:#e6edf3;--muted:#8b949e;--dim:#5a6370;--faint:#363f4d;
+  --green:#2ea043;--green-b:#3fb950;--green-d:#0f2d16;
+  --red:#da3633;--red-b:#f85149;--red-d:#2d0f0f;
+  --blue:#58a6ff;--blue-d:#0f1d2d;
+  --gold:#d29922;--gold-d:#2d230f;
+  --purple:#bc8cff;--purple-d:#1d0f2d;
+  --cyan:#39c5cf;--cyan-d:#0f2527;
+  --mono:'JetBrains Mono',monospace;--sans:'Inter',sans-serif;
+}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased}
+.container{max-width:1280px;margin:0 auto;padding:0 20px}
+
+/* Header */
+.header{background:linear-gradient(180deg,#0a0f16 0%,var(--bg) 100%);border-bottom:1px solid var(--border);padding:24px 0}
+.header-top{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:12px}
+.header-top .ticker{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--dim);letter-spacing:3px}
+.header-top .price{font-family:var(--mono);font-size:42px;font-weight:700;color:var(--white)}
+.header-top .change{font-family:var(--mono);font-size:18px;font-weight:600;padding:4px 12px;border-radius:4px}
+.change.neg{color:var(--red-b);background:var(--red-d)}
+.change.pos{color:var(--green-b);background:var(--green-d)}
+.header-top .date{font-size:13px;color:var(--dim);margin-left:auto}
+.bias-strip{display:flex;gap:10px;flex-wrap:wrap}
+.bias-strip .tag{font-size:11px;font-weight:600;padding:4px 10px;border-radius:4px;letter-spacing:0.5px;text-transform:uppercase}
+.tag.red{background:var(--red-d);color:var(--red-b);border:1px solid #3a1515}
+.tag.gold{background:var(--gold-d);color:var(--gold);border:1px solid #3a2e15}
+.tag.blue{background:var(--blue-d);color:var(--blue);border:1px solid #152a3a}
+.tag.green{background:var(--green-d);color:var(--green-b);border:1px solid #153a15}
+.tag.purple{background:var(--purple-d);color:var(--purple);border:1px solid #251540}
+
+/* Metric Grid */
+.metrics{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px;padding:20px 0}
+.metric{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+.metric .label{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+.metric .value{font-family:var(--mono);font-size:20px;font-weight:600}
+.metric .sub{font-size:10px;color:var(--muted);margin-top:2px}
+.metric .value.red{color:var(--red-b)}.metric .value.green{color:var(--green-b)}
+.metric .value.gold{color:var(--gold)}.metric .value.blue{color:var(--blue)}
+.metric .value.purple{color:var(--purple)}.metric .value.cyan{color:var(--cyan)}
+
+/* Section */
+.section{margin:24px 0}.section-title{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+/* Chart */
+.chart-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;position:relative}
+.chart-container{position:relative;width:100%;height:420px}
+.chart-legend{display:flex;gap:16px;flex-wrap:wrap;padding:10px 0 0;font-size:11px;color:var(--muted)}
+.chart-legend span{display:flex;align-items:center;gap:5px}
+.chart-legend i{display:inline-block;width:14px;height:3px;border-radius:1px}
+
+/* Grid Layout */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+@media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+/* Cards */
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:14px 16px}
+.card-title{font-size:10px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:10px}
+
+/* Level Row */
+.level-row{display:grid;grid-template-columns:1fr 85px 65px 40px;align-items:center;padding:5px 6px;border-radius:4px;font-size:12px;border-left:3px solid transparent}
+.level-row:nth-child(odd){background:rgba(255,255,255,0.015)}
+.level-row.hot{border-left-color:var(--gold);background:var(--gold-d)}
+.level-row .name{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.level-row .price{font-family:var(--mono);font-weight:600;text-align:right;color:var(--white)}
+.level-row .dist{text-align:right;font-size:11px}
+.level-row .score{text-align:center;font-family:var(--mono);font-weight:700;font-size:10px;padding:1px 6px;border-radius:3px}
+
+/* Analysis Note */
+.note{background:var(--bg4);border-left:3px solid var(--blue);border-radius:0 6px 6px 0;padding:14px 18px;margin:16px 0;font-size:13px;color:var(--muted);line-height:1.7}
+.note strong{color:var(--white);font-weight:600}
+.note .highlight{color:var(--gold);font-weight:600}
+.note .bearish{color:var(--red-b);font-weight:600}
+.note .bullish{color:var(--green-b);font-weight:600}
+.note.warn{border-left-color:var(--gold)}
+.note.danger{border-left-color:var(--red)}
+.note.success{border-left-color:var(--green)}
+
+/* Setup Card */
+.setup{border-radius:8px;padding:14px 16px;border:1px solid}
+.setup.bull{background:var(--green-d);border-color:#1a3a1a}
+.setup.bear{background:var(--red-d);border-color:#3a1a1a}
+.setup .setup-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.setup.bull .setup-title{color:var(--green-b)}
+.setup.bear .setup-title{color:var(--red-b)}
+.setup .setup-body{font-size:12px;color:var(--muted);line-height:1.8}
+.setup .setup-body b{color:var(--white)}
+
+/* Gauge */
+.gauge-wrap{text-align:center;padding:10px 0}
+.gauge-score{font-family:var(--mono);font-size:52px;font-weight:700}
+.gauge-label{font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:2px;margin-top:4px}
+.gauge-bar{width:100%;height:8px;background:var(--bg);border-radius:4px;margin:12px 0;overflow:hidden;position:relative}
+.gauge-bar .fill{height:100%;border-radius:4px;transition:width 0.5s}
+.gauge-bar .marker{position:absolute;top:-4px;width:3px;height:16px;background:var(--white);border-radius:2px}
+
+/* Alert */
+.alert{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--border)}
+.alert:last-child{border-bottom:none}
+.alert-icon{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0}
+.alert-icon.red{background:var(--red-d);color:var(--red-b)}
+.alert-icon.gold{background:var(--gold-d);color:var(--gold)}
+.alert-icon.blue{background:var(--blue-d);color:var(--blue)}
+.alert-text{font-size:12px;color:var(--muted);line-height:1.4}
+
+/* Intermarket */
+.im-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px}
+.im-row:last-child{border-bottom:none}
+.im-row .sym{font-weight:600;color:var(--white);width:45px}
+.im-row .px{font-family:var(--mono);font-weight:500;color:var(--white)}
+
+/* Footer */
+.footer{text-align:center;padding:24px 0;font-size:10px;color:var(--dim);border-top:1px solid var(--border);margin-top:32px}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<div class="header">
+  <div class="header-top">
+    <span class="ticker">SPY</span>
+    <span class="price">$634.09</span>
+    <span class="change neg">▼ $11.00 (−1.71%)</span>
+    <span class="date">Sunday, March 29, 2026 — Weekly Prep Brief</span>
+  </div>
+  <div class="bias-strip">
+    <span class="tag red">Bearish bias (−45)</span>
+    <span class="tag red">VIX 31.05</span>
+    <span class="tag red">Below all MAs</span>
+    <span class="tag gold">Fib 23.6% broken</span>
+    <span class="tag purple">Testing S2 pivot zone</span>
+  </div>
+</div>
+
+<!-- ═══════════════ KEY METRICS ═══════════════ -->
+<div class="metrics">
+  <div class="metric"><div class="label">Prior close</div><div class="value">$645.09</div><div class="sub">Mar 26 close</div></div>
+  <div class="metric"><div class="label">20-day MA</div><div class="value gold">$668.50</div><div class="sub">−5.2% below</div></div>
+  <div class="metric"><div class="label">50-day MA</div><div class="value purple">$680.61</div><div class="sub">−6.8% below</div></div>
+  <div class="metric"><div class="label">200-day MA</div><div class="value blue">$661.44</div><div class="sub">−4.1% below</div></div>
+  <div class="metric"><div class="label">Fib 23.6%</div><div class="value green">$646.85</div><div class="sub">Broken — now resistance</div></div>
+  <div class="metric"><div class="label">ATH</div><div class="value">$697.84</div><div class="sub">Jan 28, 2026</div></div>
+  <div class="metric"><div class="label">Pivot (PP)</div><div class="value cyan">$648.25</div><div class="sub">Standard pivot</div></div>
+  <div class="metric"><div class="label">VIX</div><div class="value red">31.05</div><div class="sub">Elevated fear</div></div>
+</div>
+
+<!-- ═══════════════ ANALYSIS NOTE 1 ═══════════════ -->
+<div class="note danger">
+  <strong>Macro snapshot:</strong> SPY at $634 is trading <span class="bearish">below every major moving average</span> for the first time since April 2025. The 200 DMA ($661.44) — the institutional trend-defining line — was lost on March 12 and hasn't been reclaimed in two weeks. The Fibonacci 23.6% retracement at $646.85 (measured from the Apr '25 low to the Jan '26 ATH) broke decisively on March 26. VIX at 31 reflects broad-based fear, and gold surging +3.5% today confirms flight-to-safety positioning. This is a <span class="bearish">distribution environment</span> — the structure of lower highs since the Jan 28 ATH is intact and accelerating.
+</div>
+
+<!-- ═══════════════ CHART ═══════════════ -->
+<div class="section">
+  <div class="section-title">March 2026 — Daily chart with key levels</div>
+  <div class="chart-wrap">
+    <div class="chart-container"><canvas id="mainChart"></canvas></div>
+    <div class="chart-legend">
+      <span><i style="background:var(--gold)"></i>20 DMA</span>
+      <span><i style="background:var(--purple)"></i>50 DMA</span>
+      <span><i style="background:var(--blue)"></i>200 DMA</span>
+      <span><i style="background:var(--green)"></i>Fib 23.6%</span>
+      <span><i style="background:var(--cyan)"></i>Pivots</span>
+      <span><i style="background:var(--white)"></i>Current price</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ ANALYSIS NOTE 2 ═══════════════ -->
+<div class="note warn">
+  <strong>Chart read:</strong> March has been a controlled descent — not a crash, but a steady erosion of support. Price gapped below the 200 DMA on Mar 6 ($672→$672.38), attempted to recover through Mar 4-5, then gave up. The acceleration came Mar 12-13 when price dropped from $676 to $662, followed by a brief bounce to $670 that failed at the prior breakdown level. The Mar 20 low ($644.72) and Mar 26 close ($645.09) are creating a <span class="highlight">double-bottom test near $644-645</span>. Whether this holds or breaks is the week's defining question. Volume expanded on the down days (Mar 20: 163M shares vs 20-day avg ~95M), confirming sellers are in control.
+</div>
+
+<!-- ═══════════════ LEVEL MAP + BIAS ═══════════════ -->
+<div class="section">
+  <div class="section-title">Level map & directional bias</div>
+  <div class="grid-2">
+
+    <!-- Level Map -->
+    <div class="card">
+      <div class="card-title">Confluence-scored levels (sorted by proximity)</div>
+
+      <div class="level-row"><div class="name" style="color:var(--dim)">— RESISTANCE ABOVE —</div><div></div><div></div><div></div></div>
+
+      <div class="level-row hot"><div class="name" style="color:var(--cyan)">S1 Pivot</div><div class="price">$641.66</div><div class="dist" style="color:var(--red-b)">+1.2%</div><div class="score" style="background:var(--gold-d);color:var(--gold)">4</div></div>
+      <div class="level-row"><div class="name" style="color:var(--dim)">Prior day low</div><div class="price">$644.82</div><div class="dist" style="color:var(--red-b)">+1.7%</div><div class="score" style="background:var(--faint);color:var(--muted)">2</div></div>
+      <div class="level-row"><div class="name" style="color:var(--dim)">Prior close</div><div class="price">$645.09</div><div class="dist" style="color:var(--red-b)">+1.7%</div><div class="score" style="background:var(--faint);color:var(--muted)">2</div></div>
+      <div class="level-row hot"><div class="name" style="color:var(--green)">Fib 23.6%</div><div class="price">$646.85</div><div class="dist" style="color:var(--red-b)">+2.0%</div><div class="score" style="background:var(--gold-d);color:var(--gold)">5</div></div>
+      <div class="level-row hot"><div class="name" style="color:var(--cyan)">Pivot PP</div><div class="price">$648.25</div><div class="dist" style="color:var(--red-b)">+2.2%</div><div class="score" style="background:var(--gold-d);color:var(--gold)">4</div></div>
+      <div class="level-row"><div class="name" style="color:var(--cyan)">R1 Pivot</div><div class="price">$651.69</div><div class="dist" style="color:var(--red-b)">+2.8%</div><div class="score" style="background:var(--faint);color:var(--muted)">2</div></div>
+      <div class="level-row"><div class="name" style="color:var(--dim)">Prior day high</div><div class="price">$654.85</div><div class="dist" style="color:var(--red-b)">+3.3%</div><div class="score" style="background:var(--faint);color:var(--muted)">2</div></div>
+      <div class="level-row"><div class="name" style="color:var(--cyan)">R2 Pivot</div><div class="price">$658.28</div><div class="dist" style="color:var(--red-b)">+3.8%</div><div class="score" style="background:var(--faint);color:var(--muted)">2</div></div>
+      <div class="level-row hot"><div class="name" style="color:var(--blue)">200 DMA</div><div class="price">$661.44</div><div class="dist" style="color:var(--red-b)">+4.3%</div><div class="score" style="background:var(--gold-d);color:var(--gold)">5</div></div>
+      <div class="level-row"><div class="name" style="color:var(--gold)">20 DMA</div><div class="price">$668.50</div><div class="dist" style="color:var(--red-b)">+5.4%</div><div class="score" style="background:var(--faint);color:var(--muted)">3</div></div>
+      <div class="level-row"><div class="name" style="color:var(--purple)">50 DMA</div><div class="price">$680.61</div><div class="dist" style="color:var(--red-b)">+7.3%</div><div class="score" style="background:var(--faint);color:var(--muted)">3</div></div>
+
+      <div style="background:var(--bg);padding:5px 8px;border-radius:4px;margin:6px 0;display:flex;justify-content:space-between;font-family:var(--mono);font-weight:700;font-size:12px;border-left:3px solid var(--white)">
+        <span>▸ CURRENT PRICE</span><span>$634.09</span>
+      </div>
+
+      <div class="level-row"><div class="name" style="color:var(--dim)">— SUPPORT BELOW —</div><div></div><div></div><div></div></div>
+
+      <div class="level-row hot"><div class="name" style="color:var(--cyan)">S2 Pivot</div><div class="price">$638.22</div><div class="dist" style="color:var(--green-b)">−0.6%</div><div class="score" style="background:var(--gold-d);color:var(--gold)">4</div></div>
+      <div class="level-row hot"><div class="name" style="color:var(--cyan)">S3 Pivot</div><div class="price">$631.63</div><div class="dist" style="color:var(--green-b)">−0.4%</div><div class="score" style="background:var(--gold-d);color:var(--gold)">3</div></div>
+      <div class="level-row"><div class="name" style="color:var(--green)">Fib 38.2%</div><div class="price">$615.31</div><div class="dist" style="color:var(--green-b)">−3.0%</div><div class="score" style="background:var(--faint);color:var(--muted)">3</div></div>
+      <div class="level-row"><div class="name" style="color:var(--green)">Fib 50%</div><div class="price">$589.82</div><div class="dist" style="color:var(--green-b)">−7.0%</div><div class="score" style="background:var(--faint);color:var(--muted)">2</div></div>
+      <div class="level-row"><div class="name" style="color:var(--green)">Fib 61.8%</div><div class="price">$564.33</div><div class="dist" style="color:var(--green-b)">−11.0%</div><div class="score" style="background:var(--faint);color:var(--muted)">2</div></div>
+    </div>
+
+    <!-- Directional Bias + Alerts -->
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="card">
+        <div class="card-title">Directional bias score</div>
+        <div class="gauge-wrap">
+          <div class="gauge-score" style="color:var(--red-b)">−45</div>
+          <div class="gauge-label" style="color:var(--red)">Bearish</div>
+          <div class="gauge-bar">
+            <div style="position:absolute;left:0;width:50%;height:100%;background:linear-gradient(90deg,var(--red),transparent);border-radius:4px 0 0 4px"></div>
+            <div style="position:absolute;right:0;width:50%;height:100%;background:linear-gradient(270deg,var(--green),transparent);border-radius:0 4px 4px 0"></div>
+            <div class="marker" style="left:27.5%"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--dim)"><span>−100</span><span>0</span><span>+100</span></div>
+        </div>
+        <div style="margin-top:12px;font-size:11px;color:var(--muted);line-height:1.6">
+          <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border)"><span>MA structure</span><span style="color:var(--red-b)">−15</span></div>
+          <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border)"><span>Swing structure</span><span style="color:var(--red-b)">−12</span></div>
+          <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border)"><span>RSI (38.2)</span><span style="color:var(--red-b)">−5</span></div>
+          <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border)"><span>MACD below zero</span><span style="color:var(--red-b)">−8</span></div>
+          <div style="display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border)"><span>ADX/DMI (−DI leading)</span><span style="color:var(--red-b)">−5</span></div>
+          <div style="display:flex;justify-content:space-between;padding:3px 0"><span>VIX elevated (31)</span><span style="color:var(--gold)">0</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Active alerts</div>
+        <div class="alert"><div class="alert-icon red">!</div><div class="alert-text">Price below all major MAs (20/50/200) — confirmed downtrend structure</div></div>
+        <div class="alert"><div class="alert-icon red">!</div><div class="alert-text">Fib 23.6% ($646.85) broken on Mar 26 — was key retracement support</div></div>
+        <div class="alert"><div class="alert-icon gold">⚡</div><div class="alert-text">Testing S2 Pivot ($638.22) — only 0.6% away, next major support</div></div>
+        <div class="alert"><div class="alert-icon gold">⚡</div><div class="alert-text">VIX at 31.05 — elevated fear. Watch for exhaustion reversal above 35</div></div>
+        <div class="alert"><div class="alert-icon blue">i</div><div class="alert-text">200 DMA reclaim ($661.44) is the bull invalidation trigger — 4.3% above</div></div>
+        <div class="alert"><div class="alert-icon blue">i</div><div class="alert-text">GLD +3.5% today — risk-off rotation accelerating into gold</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ CONFLUENCE ANALYSIS NOTE ═══════════════ -->
+<div class="note">
+  <strong>Confluence analysis:</strong> Two critical zones stand out. <strong>Overhead at $646-649</strong> (confluence score 5+): the Fib 23.6% ($646.85), Pivot PP ($648.25), and prior close ($645.09) all cluster here. This is the <span class="highlight">reclaim-or-reject zone</span> — if SPY can push back above $649 with volume, it opens a path to the 200 DMA at $661. If it rejects here on any bounce attempt, that confirms the level has flipped from support to resistance. <strong>Below at $631-638</strong>: S2 ($638.22) and S3 ($631.63) are the next support shelf. A break below S3 opens a gap to the Fib 38.2% at $615, which would represent a full 12% correction from the ATH. The <span class="highlight">$615 level also roughly coincides with where the 200 DMA was in September 2025</span>, adding historical memory to that zone.
+</div>
+
+<!-- ═══════════════ TRADE SETUPS ═══════════════ -->
+<div class="section">
+  <div class="section-title">Trade scenarios for the week</div>
+  <div class="grid-2">
+    <div class="setup bull">
+      <div class="setup-title">🟢 Bullish reclaim scenario</div>
+      <div class="setup-body">
+        <b>Trigger:</b> SPY reclaims $646.85 (Fib 23.6%) and holds above for 30+ min with volume exceeding 20-day average<br>
+        <b>Entry:</b> $647-649 on the retest of the reclaim<br>
+        <b>Target 1:</b> $655 (prior day high area) — +1.0%<br>
+        <b>Target 2:</b> $661.44 (200 DMA) — +2.0%<br>
+        <b>Stop:</b> $638 (below S2 pivot) — risk 1.5%<br>
+        <b>R:R ratio:</b> 1:1.3 to T2<br>
+        <b>Confidence:</b> Low — requires VIX reversal below 28 and volume confirmation. Counter-trend trade in a bearish structure.
+      </div>
+    </div>
+    <div class="setup bear">
+      <div class="setup-title">🔴 Bearish continuation scenario</div>
+      <div class="setup-body">
+        <b>Trigger:</b> SPY rejects at the $641-648 zone on a bounce attempt, or breaks below $631.63 (S3)<br>
+        <b>Entry:</b> $640-642 on rejection, or $630 on S3 break<br>
+        <b>Target 1:</b> $631 (S3) or $625 (round number) — −1.4% to −2.4%<br>
+        <b>Target 2:</b> $615.31 (Fib 38.2%) — −3.8%<br>
+        <b>Stop:</b> $649 (above Fib 23.6% reclaim) — risk 1.4%<br>
+        <b>R:R ratio:</b> 1:2.7 to T2<br>
+        <b>Confidence:</b> Higher — aligned with trend, MA structure, and momentum. VIX supports continued selling pressure.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ MOMENTUM + INTERMARKET ═══════════════ -->
+<div class="section">
+  <div class="section-title">Momentum readings & intermarket context</div>
+  <div class="grid-3">
+
+    <div class="card">
+      <div class="card-title">Oscillator status</div>
+      <div style="font-size:12px;color:var(--muted);line-height:2">
+        <div style="display:flex;justify-content:space-between"><span>RSI (14)</span><span style="font-family:var(--mono);color:var(--gold);font-weight:600">38.2</span></div>
+        <div style="height:4px;background:var(--bg);border-radius:2px;margin-bottom:8px"><div style="width:38.2%;height:100%;background:linear-gradient(90deg,var(--red),var(--gold));border-radius:2px"></div></div>
+        <div style="display:flex;justify-content:space-between"><span>MACD</span><span style="font-family:var(--mono);color:var(--red-b);font-weight:600">−6.82</span></div>
+        <div style="font-size:10px;color:var(--dim);margin-bottom:8px">Below zero line, histogram expanding negative</div>
+        <div style="display:flex;justify-content:space-between"><span>Stochastic %K</span><span style="font-family:var(--mono);color:var(--red-b);font-weight:600">22.4</span></div>
+        <div style="font-size:10px;color:var(--dim);margin-bottom:8px">Oversold territory, but no bullish cross yet</div>
+        <div style="display:flex;justify-content:space-between"><span>ADX</span><span style="font-family:var(--mono);color:var(--gold);font-weight:600">28.5</span></div>
+        <div style="font-size:10px;color:var(--dim)">Trending (>25). −DI leads +DI = bearish trend</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Intermarket pulse</div>
+      <div class="im-row"><div class="sym">SPY</div><div class="px">$634.09</div><div style="color:var(--red-b);font-family:var(--mono);font-size:12px">−1.71%</div></div>
+      <div class="im-row"><div class="sym">QQQ</div><div class="px">$562.58</div><div style="color:var(--red-b);font-family:var(--mono);font-size:12px">−1.96%</div></div>
+      <div class="im-row"><div class="sym">IWM</div><div class="px">$243.10</div><div style="color:var(--red-b);font-family:var(--mono);font-size:12px">−1.76%</div></div>
+      <div class="im-row"><div class="sym">VIX</div><div class="px">31.05</div><div style="color:var(--red-b);font-family:var(--mono);font-size:12px">elevated</div></div>
+      <div class="im-row"><div class="sym">TLT</div><div class="px">$85.64</div><div style="color:var(--red-b);font-family:var(--mono);font-size:12px">−0.55%</div></div>
+      <div class="im-row"><div class="sym">GLD</div><div class="px">$414.70</div><div style="color:var(--green-b);font-family:var(--mono);font-size:12px">+3.51%</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Key invalidation levels</div>
+      <div style="font-size:12px;color:var(--muted);line-height:1.8">
+        <div style="padding:6px 0;border-bottom:1px solid var(--border)">
+          <div style="color:var(--green-b);font-weight:600;font-size:11px">BULL INVALIDATION</div>
+          Daily close above <span style="color:var(--white);font-family:var(--mono);font-weight:600">$661.44</span> (200 DMA)<br>
+          <span style="color:var(--dim);font-size:11px">Would shift bias from Bearish to Neutral. Currently 4.3% away.</span>
+        </div>
+        <div style="padding:6px 0;border-bottom:1px solid var(--border)">
+          <div style="color:var(--red-b);font-weight:600;font-size:11px">BEAR ACCELERATION</div>
+          Daily close below <span style="color:var(--white);font-family:var(--mono);font-weight:600">$631.63</span> (S3 Pivot)<br>
+          <span style="color:var(--dim);font-size:11px">Opens gap to Fib 38.2% ($615.31). Increases bias to Strong Bearish.</span>
+        </div>
+        <div style="padding:6px 0">
+          <div style="color:var(--gold);font-weight:600;font-size:11px">VIX SIGNAL</div>
+          VIX spike above <span style="color:var(--white);font-family:var(--mono);font-weight:600">35</span> = potential exhaustion / reversal zone<br>
+          <span style="color:var(--dim);font-size:11px">Historically, VIX > 35 precedes 5-10 day equity bounces 72% of the time.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════ ANALYSIS NOTE 3 ═══════════════ -->
+<div class="note warn">
+  <strong>Intermarket read:</strong> Equities are selling off broadly — SPY, QQQ, and IWM all down 1.7-2.0%, meaning this isn't sector rotation, it's <span class="highlight">risk-off across the board</span>. The key divergence: bonds (TLT) are also down −0.55%, which means this isn't a classic "sell stocks, buy bonds" flight. Money is flowing into <span class="highlight">gold (+3.5%)</span>, suggesting inflation concerns or geopolitical stress rather than a pure growth scare. When both stocks AND bonds sell off while gold surges, it often signals a macro regime shift — watch for follow-through next week. If TLT reverses up while equities stay weak, that's a more traditional risk-off (better for bounce trades). If TLT continues down with equities, that's a stagflation or liquidity concern (more dangerous).
+</div>
+
+<!-- ═══════════════ WEEKLY OUTLOOK ═══════════════ -->
+<div class="section">
+  <div class="section-title">Weekly outlook & analyst notes</div>
+  <div class="card" style="border-left:3px solid var(--blue)">
+    <div style="font-size:13px;color:var(--muted);line-height:1.8">
+      <p style="margin-bottom:12px"><strong style="color:var(--white)">The big picture:</strong> SPY has corrected 9.1% from the $697.84 ATH in exactly two months. The selloff has been orderly — no gap-down crash, no panic — but also relentless. Every bounce attempt (Mar 4, Mar 16-17, Mar 23-25) has been sold. This is the signature of <strong style="color:var(--gold)">institutional distribution</strong>: large holders unwinding positions methodically without triggering panic.</p>
+
+      <p style="margin-bottom:12px"><strong style="color:var(--white)">The Fibonacci story:</strong> The 23.6% retracement ($646.85) from the full Apr '25-Jan '26 swing was THE level to hold for bulls. It broke on Mar 26. This is significant because the 23.6% is the "first meaningful test" of a trend — if it fails, the market is telling you the trend has changed. The next Fibonacci support at 38.2% ($615.31) is 3% below current price. Between here and there, the pivot structure (S2 at $638, S3 at $631) provides intermediate support.</p>
+
+      <p style="margin-bottom:12px"><strong style="color:var(--white)">What to watch this week:</strong></p>
+      <p style="margin-bottom:6px;padding-left:12px;border-left:2px solid var(--border)">
+        <strong style="color:var(--cyan)">1.</strong> Can SPY hold $631-638 (S2-S3 zone)? Two tests of ~$644-645 have held so far. A third test often breaks.<br>
+        <strong style="color:var(--cyan)">2.</strong> VIX trajectory — currently 31. A spike to 35+ would be a contrarian buy signal for a short-term bounce. A gradual drift from 31 to 25 is more dangerous (complacency into continued selling).<br>
+        <strong style="color:var(--cyan)">3.</strong> The 200 DMA at $661.44 — this is the reclaim target. Until SPY gets back above it, every bounce is a sell-the-rip in a downtrend.<br>
+        <strong style="color:var(--cyan)">4.</strong> Bonds vs gold — if GLD continues outperforming TLT, the macro picture is more concerning than a simple equity correction.
+      </p>
+
+      <p style="margin-bottom:0"><strong style="color:var(--white)">Bottom line:</strong> <span style="color:var(--red-b)">Bearish bias maintained.</span> The trend is down, every MA is overhead resistance, the Fib structure is broken, and momentum (RSI, MACD, ADX) all confirm sellers control the tape. Bounces should be treated as selling opportunities until SPY reclaims the 200 DMA. The high-probability trade is shorting rejections at $641-648 with targets at $631 and $615. For longs, wait for either a VIX spike above 35 or a daily close back above $661 — don't try to catch this falling knife on hope.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ FIBONACCI MAP ═══════════════ -->
+<div class="section">
+  <div class="section-title">Fibonacci retracement map — Apr '25 swing low ($481.80) to Jan '26 ATH ($697.84)</div>
+  <div class="card">
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px">
+      <div style="border:1px solid var(--border);border-radius:6px;padding:8px 10px">
+        <div style="font-size:10px;color:var(--green);font-weight:600">0% (ATH)</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:600">$697.84</div>
+        <div style="font-size:10px;color:var(--muted)">+10.1% away</div>
+      </div>
+      <div style="border:2px solid var(--gold);border-radius:6px;padding:8px 10px;background:var(--gold-d)">
+        <div style="font-size:10px;color:var(--gold);font-weight:600">23.6% ⬅ BROKEN</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:600">$646.85</div>
+        <div style="font-size:10px;color:var(--muted)">+2.0% above</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:6px;padding:8px 10px">
+        <div style="font-size:10px;color:var(--green);font-weight:600">38.2% — NEXT TARGET</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:600">$615.31</div>
+        <div style="font-size:10px;color:var(--muted)">−3.0% below</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:6px;padding:8px 10px">
+        <div style="font-size:10px;color:var(--green);font-weight:600">50%</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:600">$589.82</div>
+        <div style="font-size:10px;color:var(--muted)">−7.0% below</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:6px;padding:8px 10px">
+        <div style="font-size:10px;color:var(--green);font-weight:600">61.8%</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:600">$564.33</div>
+        <div style="font-size:10px;color:var(--muted)">−11.0% below</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:6px;padding:8px 10px">
+        <div style="font-size:10px;color:var(--green);font-weight:600">78.6%</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:600">$528.03</div>
+        <div style="font-size:10px;color:var(--muted)">−16.7% below</div>
+      </div>
+      <div style="border:1px solid var(--border);border-radius:6px;padding:8px 10px">
+        <div style="font-size:10px;color:var(--green);font-weight:600">100% (Swing low)</div>
+        <div style="font-family:var(--mono);font-size:16px;font-weight:600">$481.80</div>
+        <div style="font-size:10px;color:var(--muted)">−24.0% below</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<div class="footer">
+  SPY Daily Levels Study — Generated March 29, 2026 — Data via Tradier & Alpha Vantage<br>
+  Not financial advice. For educational and informational purposes only. Past performance does not guarantee future results.
+</div>
+
+</div>
+
+<!-- ═══════════════ CHART.JS ═══════════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const data = [
+  {d:'Mar 2',c:686.38,h:688.62,l:678.02},{d:'Mar 3',c:680.33,h:682.61,l:669.66},
+  {d:'Mar 4',c:685.13,h:687.09,l:679.62},{d:'Mar 5',c:681.31,h:685.53,l:675.61},
+  {d:'Mar 6',c:672.38,h:676.11,l:669.76},{d:'Mar 9',c:678.27,h:679.92,l:662.39},
+  {d:'Mar 10',c:677.18,h:683.36,l:674.76},{d:'Mar 11',c:676.33,h:680.08,l:673.34},
+  {d:'Mar 12',c:666.06,h:671.65,l:665.87},{d:'Mar 13',c:662.29,h:672.34,l:661.36},
+  {d:'Mar 16',c:669.03,h:672.07,l:667.12},{d:'Mar 17',c:670.79,h:674.44,l:669.70},
+  {d:'Mar 18',c:661.43,h:669.72,l:661.19},{d:'Mar 19',c:658.00,h:662.98,l:655.17},
+  {d:'Mar 20',c:648.57,h:656.69,l:644.72},{d:'Mar 23',c:655.38,h:662.62,l:653.94},
+  {d:'Mar 24',c:653.18,h:657.03,l:649.88},{d:'Mar 25',c:656.82,h:660.89,l:654.24},
+  {d:'Mar 26',c:645.09,h:654.85,l:644.82}
+];
+const labels = data.map(d => d.d);
+const closes = data.map(d => d.c);
+
+const refLines = [
+  {y:668.50,color:'#d29922',label:'20 DMA'},
+  {y:680.61,color:'#bc8cff',label:'50 DMA'},
+  {y:661.44,color:'#58a6ff',label:'200 DMA'},
+  {y:646.85,color:'#2ea043',label:'Fib 23.6%'},
+  {y:648.25,color:'#39c5cf',label:'Pivot'},
+  {y:641.66,color:'#39c5cf88',label:'S1'},
+  {y:638.22,color:'#39c5cf88',label:'S2'},
+  {y:634.09,color:'#e6edf3',label:'NOW'}
+];
+
+const plugin = {
+  id:'lines',
+  afterDraw(ch){
+    const{ctx:c,chartArea:{left:l,right:r,top:t,bottom:b},scales:{y}}=ch;
+    refLines.forEach(rl=>{
+      const yp=y.getPixelForValue(rl.y);
+      if(yp<t-5||yp>b+5)return;
+      c.save();c.strokeStyle=rl.color;c.lineWidth=rl.label==='NOW'?2.5:1.2;
+      c.setLineDash(rl.label==='NOW'?[4,4]:[8,5]);c.globalAlpha=rl.label==='NOW'?1:0.7;
+      c.beginPath();c.moveTo(l,yp);c.lineTo(r,yp);c.stroke();c.setLineDash([]);
+      c.globalAlpha=1;c.fillStyle=rl.color;c.font='600 10px JetBrains Mono,monospace';
+      c.textAlign='right';c.fillText(rl.label+' $'+rl.y.toFixed(2),r-4,yp-5);
+      c.restore();
+    });
+  }
+};
+const hlPlugin={
+  id:'hl',afterDatasetsDraw(ch){
+    const{ctx:c,scales:{x,y}}=ch;c.save();c.globalAlpha=0.2;
+    data.forEach((bar,i)=>{
+      const xp=x.getPixelForValue(i),hY=y.getPixelForValue(bar.h),lY=y.getPixelForValue(bar.l);
+      c.fillStyle=bar.c>=data[Math.max(0,i-1)].c?'#2ea043':'#da3633';
+      c.fillRect(xp-4,hY,8,lY-hY);
+    });c.restore();
+  }
+};
+
+new Chart(document.getElementById('mainChart'),{
+  type:'line',
+  data:{labels,datasets:[{data:closes,borderColor:'#58a6ff',backgroundColor:'rgba(88,166,255,0.06)',fill:true,tension:0.2,pointRadius:3,pointBackgroundColor:closes.map((c,i)=>i===closes.length-1?'#e6edf3':c>=(data[Math.max(0,i-1)]?.c||c)?'#2ea043':'#da3633'),pointBorderWidth:0,borderWidth:2}]},
+  options:{responsive:true,maintainAspectRatio:false,interaction:{intersect:false,mode:'index'},
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'#161b22',borderColor:'#2a3545',borderWidth:1,titleFont:{family:'JetBrains Mono'},bodyFont:{family:'JetBrains Mono',size:11},callbacks:{label:item=>{const b=data[item.dataIndex];return['O: $'+b.c.toFixed(2),'H: $'+b.h.toFixed(2),'L: $'+b.l.toFixed(2),'C: $'+b.c.toFixed(2)];}}}},
+    scales:{x:{ticks:{color:'#5a6370',font:{size:10,family:'JetBrains Mono'},maxRotation:45},grid:{color:'rgba(255,255,255,0.03)'}},
+      y:{min:630,max:695,ticks:{color:'#5a6370',font:{size:10,family:'JetBrains Mono'},callback:v=>'$'+v},grid:{color:'rgba(255,255,255,0.03)'}}}
+  },
+  plugins:[hlPlugin,plugin]
+});
+</script>
+</body>
+</html>

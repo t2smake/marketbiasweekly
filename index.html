@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Bias Weekly — Fibonacci Confluence & Directional Bias Reports</title>
+<meta property="og:title" content="Market Bias Weekly — Fibonacci Confluence & Directional Bias Reports">
+<meta property="og:description" content="Weekly SPY technical analysis with Fibonacci confluence scoring, directional bias, and actionable trade setups.">
+<meta property="og:image" content="/social/og-default.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@MktBiasWeekly">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23e0a020'/><text x='16' y='22' text-anchor='middle' font-family='monospace' font-weight='700' font-size='16' fill='%23070a0f'>MBW</text></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#070a0f;--bg2:#0c1018;--bg3:#121822;--bg4:#1a2232;--border:#1c2636;--border2:#283548;--white:#e8edf4;--muted:#94a0b2;--dim:#5e6b7e;--green:#22b455;--green-b:#44d977;--green-d:#0d2818;--red:#e0342f;--red-b:#ff5c57;--red-d:#2d0e0e;--gold:#e0a020;--gold-d:#2d2008;--gold-l:#ffd666;--blue:#4da3ff;--cyan:#30c8d4;--purple:#b888ff;--mono:'JetBrains Mono',monospace;--sans:'DM Sans',sans-serif}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased}
+
+/* Brand Header */
+.brand-header{text-align:center;padding:60px 20px 40px;background:linear-gradient(180deg,#0e1420 0%,var(--bg) 100%)}
+.brand-mark{font-family:var(--mono);font-size:48px;font-weight:700;color:var(--gold);letter-spacing:-1px}
+.brand-sub{font-size:16px;color:var(--dim);letter-spacing:3px;text-transform:uppercase;margin-top:4px}
+.brand-tagline{font-size:20px;color:var(--muted);margin-top:16px;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.6}
+.brand-social{margin-top:20px}
+.brand-social a{font-family:var(--mono);font-size:16px;color:var(--gold);text-decoration:none;padding:8px 20px;border:1px solid var(--gold);border-radius:6px;transition:all 0.2s}
+.brand-social a:hover{background:var(--gold);color:var(--bg)}
+
+.container{max-width:900px;margin:0 auto;padding:0 24px}
+
+/* Latest Report Banner */
+.latest-banner{background:var(--bg3);border:2px solid var(--gold);border-radius:14px;padding:28px 32px;margin:40px 0;position:relative;overflow:hidden}
+.latest-banner::before{content:'LATEST';position:absolute;top:12px;right:16px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--bg);background:var(--gold);padding:3px 10px;border-radius:4px;letter-spacing:1px}
+.latest-title{font-size:24px;font-weight:700;margin-bottom:6px}
+.latest-title a{color:var(--white);text-decoration:none}
+.latest-title a:hover{color:var(--gold)}
+.latest-meta{font-size:15px;color:var(--muted);margin-bottom:14px}
+.latest-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tag{font-size:13px;font-weight:600;padding:4px 10px;border-radius:5px}
+.tag.red{background:var(--red-d);color:var(--red-b)}.tag.gold{background:var(--gold-d);color:var(--gold-l)}.tag.green{background:var(--green-d);color:var(--green-b)}.tag.blue{background:#0d1c30;color:var(--blue)}.tag.purple{background:#1a0e2d;color:var(--purple)}
+.latest-summary{font-size:16px;color:var(--muted);line-height:1.7;margin-bottom:16px}
+.latest-cta{display:inline-block;font-family:var(--mono);font-size:15px;font-weight:600;color:var(--gold);padding:10px 24px;border:1px solid var(--gold);border-radius:8px;text-decoration:none;transition:all 0.2s}
+.latest-cta:hover{background:var(--gold);color:var(--bg)}
+
+/* Section */
+.section-title{font-size:14px;color:var(--dim);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin:40px 0 18px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+
+/* Archive Cards */
+.archive-list{display:flex;flex-direction:column;gap:14px}
+.archive-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:20px 24px;display:flex;align-items:center;gap:20px;text-decoration:none;transition:all 0.15s}
+.archive-card:hover{border-color:var(--border2);background:var(--bg4);transform:translateY(-1px)}
+.archive-date{font-family:var(--mono);font-size:15px;color:var(--gold);font-weight:600;min-width:100px;flex-shrink:0}
+.archive-info{flex:1;min-width:0}
+.archive-title{font-size:18px;font-weight:600;color:var(--white);margin-bottom:4px}
+.archive-desc{font-size:14px;color:var(--muted);line-height:1.5}
+.archive-bias{font-family:var(--mono);font-size:14px;font-weight:600;padding:4px 12px;border-radius:5px;flex-shrink:0;white-space:nowrap}
+
+/* About Section */
+.about{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:24px 28px;margin:40px 0}
+.about h3{font-size:18px;margin-bottom:10px;color:var(--white)}
+.about p{font-size:15px;color:var(--muted);line-height:1.7;margin-bottom:10px}
+.about ul{list-style:none;padding:0}
+.about li{font-size:15px;color:var(--muted);padding:4px 0;padding-left:20px;position:relative}
+.about li::before{content:'▸';position:absolute;left:0;color:var(--gold)}
+
+/* Footer */
+.footer{text-align:center;padding:40px 0;border-top:1px solid var(--border);margin-top:48px}
+.footer .mark{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--gold)}
+.footer .links{margin:12px 0}
+.footer .links a{font-family:var(--mono);font-size:14px;color:var(--muted);text-decoration:none;margin:0 12px}
+.footer .links a:hover{color:var(--gold)}
+.footer .legal{font-size:12px;color:var(--dim);margin-top:12px;line-height:1.6}
+
+@media(max-width:600px){
+  .archive-card{flex-direction:column;align-items:flex-start;gap:8px}
+  .archive-date{min-width:auto}
+  .brand-mark{font-size:36px}
+}
+</style>
+</head>
+<body>
+
+<!-- BRAND HEADER -->
+<div class="brand-header">
+  <div class="brand-mark"><span style="color:var(--gold)">M</span><span style="color:var(--white)">B</span><span style="color:var(--gold)">W</span></div><div style="font-family:var(--sans);font-size:16px;font-weight:600;color:var(--white);letter-spacing:4px;margin-top:4px">MARKET BIAS WEEKLY</div>
+  <div class="brand-sub">Fibonacci Confluence · Directional Bias · Weekly Levels</div>
+  <div class="brand-tagline">Weekly market briefs with Fibonacci confluence scoring, directional bias analysis, and actionable trade setups.</div>
+  <div class="brand-social"><a href="https://x.com/MktBiasWeekly" target="_blank">Follow on X → @MktBiasWeekly</a></div>
+</div>
+
+<div class="container">
+
+<!-- LATEST REPORT BANNER -->
+<div class="latest-banner">
+  <div class="latest-title"><a href="/reports/latest.html">SPY Weekly Prep Brief — April 6–10, 2026</a></div>
+  <div class="latest-meta">Published Sunday, April 5, 2026 &nbsp;·&nbsp; SPY $655.83</div>
+  <div class="latest-tags">
+    <span class="tag gold">Neutral-bearish (−18)</span>
+    <span class="tag green">VIX 23.87 ▼</span>
+    <span class="tag green">Fib 23.6% reclaimed</span>
+    <span class="tag red">Below 50 & 200 DMA</span>
+  </div>
+  <div class="latest-summary">Decision week — SPY testing the 20 DMA / 200 DMA cluster from below after a +4.2% V-bottom bounce. Bias upgraded from Bearish to Neutral-Bearish on VIX collapse and Fib reclaim. Close above $663 = correction may be over. Rejection = bear trap.</div>
+  <a href="/reports/latest.html" class="latest-cta">Read full report →</a>
+</div>
+
+<!-- ARCHIVE -->
+<div class="section-title">Weekly archive</div>
+<div class="archive-list">
+
+  <a href="/reports/2026-04-06.html" class="archive-card">
+    <div class="archive-date">Apr 6</div>
+    <div class="archive-info">
+      <div class="archive-title">SPY Weekly Brief — Apr 6–10, 2026</div>
+      <div class="archive-desc">V-bottom bounce from $629. Testing MA cluster at $658-662. Ceasefire hopes driving rally. Nonfarm Payrolls Friday.</div>
+    </div>
+    <div class="archive-bias" style="background:var(--gold-d);color:var(--gold-l)">−18</div>
+  </a>
+
+  <a href="/reports/2026-03-29.html" class="archive-card">
+    <div class="archive-date">Mar 29</div>
+    <div class="archive-info">
+      <div class="archive-title">SPY Daily Levels Study — Mar 29, 2026</div>
+      <div class="archive-desc">Bearish breakdown. Below all MAs, Fib 23.6% broken, VIX at 31. Testing S2 pivot zone. Gold surging on risk-off.</div>
+    </div>
+    <div class="archive-bias" style="background:var(--red-d);color:var(--red-b)">−45</div>
+  </a>
+
+  <!-- 
+    ADD NEW REPORTS HERE — newest on top
+    Copy this template:
+    
+    <a href="/reports/YYYY-MM-DD.html" class="archive-card">
+      <div class="archive-date">Mon DD</div>
+      <div class="archive-info">
+        <div class="archive-title">SPY Weekly Brief — Mon DD–DD, YYYY</div>
+        <div class="archive-desc">One-line summary of the week's setup.</div>
+      </div>
+      <div class="archive-bias" style="background:var(--gold-d);color:var(--gold-l)">SCORE</div>
+    </a>
+  -->
+
+</div>
+
+<!-- ABOUT -->
+<div class="about">
+  <h3>What is this?</h3>
+  <p>MARKET BIAS WEEKLY publishes weekly technical analysis briefs for active traders. Each report includes:</p>
+  <ul>
+    <li>Fibonacci confluence gauge — price position mapped against all major levels</li>
+    <li>Directional bias scoring — aggregated from MAs, RSI, MACD, ADX, and more</li>
+    <li>Confluence-scored support and resistance levels</li>
+    <li>Actionable trade setups with visual risk/reward ladders</li>
+    <li>Intermarket context (SPY, QQQ, VIX, bonds, gold, credit)</li>
+    <li>Weekly "what changed" diff for returning readers</li>
+  </ul>
+  <p style="margin-top:14px">New reports drop every Sunday evening before the market open. Follow <a href="https://x.com/MktBiasWeekly" style="color:var(--gold)">@MktBiasWeekly on X</a> for the weekly thread.</p>
+  <p style="font-size:13px;color:var(--dim);margin-top:10px">Not financial advice. For educational and informational purposes only.</p>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer"><div class="container">
+  <div class="mark" style="letter-spacing:2px"><span style="color:var(--gold)">M</span>B<span style="color:var(--gold)">W</span></div><div style="font-size:14px;color:var(--muted);margin-top:2px;letter-spacing:3px">MARKET BIAS WEEKLY</div>
+  <div class="links">
+    <a href="https://x.com/MktBiasWeekly" target="_blank">X / Twitter</a>
+    <a href="/reports/latest.html">Latest report</a>
+    <a href="/">Archive</a>
+  </div>
+  <div class="legal">Not financial advice. For educational and informational purposes only.<br>Past performance does not guarantee future results.</div>
+</div></div>
+
+</body>
+</html>
