@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Read This Report — Market Bias Weekly</title>
+<meta property="og:title" content="How to Read the Market Bias Weekly Report">
+<meta property="og:description" content="A plain-language guide to understanding Fibonacci levels, directional bias, confluence scoring, and trade setups.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@t2smbw">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23e0a020'/><text x='16' y='22' text-anchor='middle' font-family='monospace' font-weight='700' font-size='14' fill='%23070a0f'>MBW</text></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#070a0f;--bg2:#0c1018;--bg3:#121822;--bg4:#1a2232;--border:#1c2636;--border2:#283548;--white:#e8edf4;--muted:#94a0b2;--dim:#5e6b7e;--green:#22b455;--green-b:#44d977;--green-d:#0d2818;--red:#e0342f;--red-b:#ff5c57;--red-d:#2d0e0e;--blue:#4da3ff;--blue-d:#0d1c30;--gold:#e0a020;--gold-d:#2d2008;--gold-l:#ffd666;--purple:#b888ff;--cyan:#30c8d4;--mono:'JetBrains Mono',monospace;--sans:'DM Sans',sans-serif}
+body{background:var(--bg);color:var(--white);font-family:var(--sans);font-size:18px;line-height:1.8;-webkit-font-smoothing:antialiased}
+.container{max-width:860px;margin:0 auto;padding:0 28px}
+
+/* Navigation */
+.nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:14px 0}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:860px;margin:0 auto;padding:0 28px}
+.nav .mbw{font-family:var(--mono);font-size:22px;font-weight:700}
+.nav .mbw .g{color:var(--gold)}
+.nav a{font-family:var(--mono);font-size:14px;color:var(--gold);text-decoration:none}
+.nav a:hover{text-decoration:underline}
+
+/* Hero */
+.hero{padding:48px 0 36px;border-bottom:1px solid var(--border)}
+.hero h1{font-size:36px;font-weight:700;line-height:1.3;margin-bottom:12px}
+.hero .sub{font-size:18px;color:var(--muted);line-height:1.6}
+
+/* TOC */
+.toc{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:24px 28px;margin:32px 0}
+.toc-title{font-size:14px;color:var(--dim);text-transform:uppercase;letter-spacing:2px;font-weight:600;margin-bottom:14px}
+.toc a{display:block;font-size:17px;color:var(--blue);text-decoration:none;padding:6px 0;border-bottom:1px solid var(--border)}
+.toc a:last-child{border-bottom:none}
+.toc a:hover{color:var(--gold)}
+.toc .num{font-family:var(--mono);color:var(--dim);margin-right:10px;font-size:14px}
+
+/* Sections */
+.section{padding:40px 0;border-bottom:1px solid var(--border)}
+.section:last-of-type{border-bottom:none}
+.section h2{font-size:26px;font-weight:700;margin-bottom:18px;color:var(--gold-l)}
+.section h3{font-size:20px;font-weight:600;margin:24px 0 12px;color:var(--white)}
+.section p{font-size:18px;color:var(--muted);margin-bottom:16px}
+.section p strong{color:var(--white)}
+
+/* Visual examples */
+.example{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin:20px 0}
+.example-title{font-size:12px;color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:12px}
+.example-visual{margin:8px 0}
+
+/* Inline demos */
+.demo-tag{display:inline-block;font-size:15px;font-weight:600;padding:5px 12px;border-radius:5px;margin:3px 4px 3px 0}
+.demo-tag.green{background:var(--green-d);color:var(--green-b);border:1px solid #153a18}
+.demo-tag.red{background:var(--red-d);color:var(--red-b);border:1px solid #3a1818}
+.demo-tag.gold{background:var(--gold-d);color:var(--gold-l);border:1px solid #3a2e15}
+.demo-tag.blue{background:var(--blue-d);color:var(--blue);border:1px solid #152a3a}
+
+.demo-metric{display:inline-flex;flex-direction:column;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin:6px 8px 6px 0;min-width:120px}
+.demo-metric .lbl{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:1px}
+.demo-metric .val{font-family:var(--mono);font-size:22px;font-weight:600}
+
+.demo-level{display:grid;grid-template-columns:1fr 80px 60px 40px;align-items:center;padding:6px 8px;font-size:15px;border-radius:4px;margin:3px 0}
+.demo-level.hot{border-left:3px solid var(--gold);background:var(--gold-d)}
+.demo-level .nm{font-weight:500}.demo-level .px{font-family:var(--mono);font-weight:600;text-align:right}
+.demo-level .dst{text-align:right;font-size:13px}.demo-level .sc{text-align:center;font-family:var(--mono);font-weight:700;font-size:11px;padding:1px 6px;border-radius:3px}
+
+/* Key concept boxes */
+.concept{background:var(--bg4);border-left:4px solid var(--gold);border-radius:0 8px 8px 0;padding:18px 22px;margin:20px 0;font-size:17px;line-height:1.8}
+.concept strong{color:var(--gold-l)}
+.concept .term{color:var(--cyan);font-weight:600}
+
+/* Glossary */
+.glossary-item{padding:14px 0;border-bottom:1px solid var(--border)}
+.glossary-item:last-child{border-bottom:none}
+.glossary-term{font-family:var(--mono);font-size:17px;font-weight:600;color:var(--cyan);margin-bottom:4px}
+.glossary-def{font-size:16px;color:var(--muted);line-height:1.7}
+
+/* Color legend */
+.color-row{display:flex;align-items:center;gap:14px;padding:8px 0;font-size:16px}
+.color-swatch{width:24px;height:24px;border-radius:4px;flex-shrink:0}
+
+/* Footer */
+.footer{text-align:center;padding:36px 0;border-top:1px solid var(--border);margin-top:40px}
+.footer .mark{font-family:var(--mono);font-size:20px;font-weight:700}
+.footer .mark .g{color:var(--gold)}
+.footer .links{margin:10px 0;font-size:14px}
+.footer .links a{font-family:var(--mono);color:var(--muted);text-decoration:none;margin:0 10px}
+.footer .links a:hover{color:var(--gold)}
+.footer .legal{font-size:12px;color:var(--dim);margin-top:10px}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav"><div class="nav-inner">
+  <div class="mbw"><span class="g">M</span>B<span class="g">W</span></div>
+  <div><a href="/">← Back to reports</a></div>
+</div></div>
+
+<div class="container">
+
+<!-- HERO -->
+<div class="hero">
+  <h1>How to read this report</h1>
+  <div class="sub">A plain-language guide to understanding the Market Bias Weekly report. No prior trading knowledge required. Start here if you're new to technical analysis — or if you just want to understand what all the numbers and colors mean.</div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+  <div class="toc-title">In this guide</div>
+  <a href="#big-picture"><span class="num">01</span> The big picture — what this report tells you</a>
+  <a href="#gauge"><span class="num">02</span> The price gauge — where is SPY right now?</a>
+  <a href="#bias"><span class="num">03</span> Directional bias — which way is the market leaning?</a>
+  <a href="#changed"><span class="num">04</span> "What changed" — the weekly diff</a>
+  <a href="#levels"><span class="num">05</span> Levels and confluence — floors and ceilings of price</a>
+  <a href="#fibonacci"><span class="num">06</span> Fibonacci — why these specific numbers?</a>
+  <a href="#moving-averages"><span class="num">07</span> Moving averages — the trend compass</a>
+  <a href="#setups"><span class="num">08</span> Trade setups — the "what to do" section</a>
+  <a href="#rr"><span class="num">09</span> Risk/reward — how to read the R:R ladders</a>
+  <a href="#intermarket"><span class="num">10</span> Intermarket heat strip — what other markets are saying</a>
+  <a href="#oscillators"><span class="num">11</span> RSI, MACD, and momentum — is the move running out of steam?</a>
+  <a href="#alerts"><span class="num">12</span> Alerts and invalidation — when to change your mind</a>
+  <a href="#colors"><span class="num">13</span> Color guide — what every color means</a>
+  <a href="#glossary"><span class="num">14</span> Glossary — terms explained in plain English</a>
+  <a href="#how-to-use"><span class="num">15</span> How to actually use this report on Monday morning</a>
+</div>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- SECTION 1 -->
+<div class="section" id="big-picture">
+  <h2>1. The big picture</h2>
+  <p>Every Sunday evening, this report answers one question: <strong>What should I expect from the stock market this week?</strong></p>
+  <p>It doesn't predict the future — nobody can. Instead, it identifies the <strong>key price levels</strong> that the market is likely to react to, scores them for reliability, and presents two scenarios (bullish and bearish) with specific entry, stop-loss, and target prices.</p>
+  <p>Think of it like a weather forecast for the market. "There's a 60% chance of rain" doesn't mean it will rain — but it helps you decide whether to carry an umbrella. This report tells you where the market's "umbrella levels" are.</p>
+
+  <div class="concept">
+    <strong>The one sentence that matters most:</strong> Look at the verdict line at the very top of the report, right below the price. It reads something like "Decision week — testing 20 DMA from below." That sentence tells you the week's theme in plain English. Everything else in the report supports that sentence with evidence.
+  </div>
+</div>
+
+<!-- SECTION 2 -->
+<div class="section" id="gauge">
+  <h2>2. The price gauge</h2>
+  <p>The horizontal bar near the top is the most important visual in the report. Here's how to read it:</p>
+
+  <p><strong>What it shows:</strong> A price range from left (lower prices) to right (higher prices). The bright white vertical bar is where SPY is trading right now. Every tick mark along the bar is a significant price level — a "floor" or "ceiling" that price tends to react to.</p>
+
+  <p><strong>The three color zones:</strong></p>
+  <div class="example">
+    <div class="example-title">Zone colors on the gauge</div>
+    <div class="color-row"><div class="color-swatch" style="background:rgba(224,52,47,0.25)"></div><span style="color:var(--muted)"><strong style="color:var(--red-b)">Red zone</strong> — price is below major support levels. Bearish territory. Caution.</span></div>
+    <div class="color-row"><div class="color-swatch" style="background:rgba(224,160,32,0.25)"></div><span style="color:var(--muted)"><strong style="color:var(--gold-l)">Gold/Yellow zone</strong> — price is between key levels. Decision area. Could go either way.</span></div>
+    <div class="color-row"><div class="color-swatch" style="background:rgba(34,180,85,0.2)"></div><span style="color:var(--muted)"><strong style="color:var(--green-b)">Green zone</strong> — price is above major moving averages. Bullish territory. Trend is healthy.</span></div>
+  </div>
+
+  <p><strong>Thick vs thin tick marks:</strong> Thicker, brighter ticks are <strong>high-confluence levels</strong> — multiple technical indicators agree that this price is important. Thin, faded ticks are less significant. Focus on the thick ones first.</p>
+
+  <div class="concept">
+    <strong>How to use it:</strong> Glance at the gauge and ask two questions. (1) Which zone is the white bar in? That tells you the current market posture. (2) How close is the white bar to the nearest thick tick? That tells you whether a move is imminent. If the white bar is right next to a thick tick, something is about to happen — either a bounce off it or a break through it.
+  </div>
+</div>
+
+<!-- SECTION 3 -->
+<div class="section" id="bias">
+  <h2>3. Directional bias</h2>
+  <p>The bias score is a single number from <strong>−100 to +100</strong> that summarizes the overall direction the market is leaning. Think of it like a compass needle.</p>
+
+  <div class="example">
+    <div class="example-title">How to read the bias score</div>
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:10px 18px;font-size:16px;color:var(--muted)">
+      <span style="font-family:var(--mono);color:var(--green-b);font-weight:700;font-size:18px">+60 to +100</span><span><strong style="color:var(--green-b)">Strong Bullish</strong> — everything aligns upward. Trend is strong. Buy dips.</span>
+      <span style="font-family:var(--mono);color:var(--green-b);font-weight:700;font-size:18px">+20 to +60</span><span><strong style="color:var(--green-b)">Bullish</strong> — mostly positive signals. Favor the long side but stay alert.</span>
+      <span style="font-family:var(--mono);color:var(--gold);font-weight:700;font-size:18px">−20 to +20</span><span><strong style="color:var(--gold)">Neutral</strong> — mixed signals. No clear direction. Be patient, wait for a trigger.</span>
+      <span style="font-family:var(--mono);color:var(--red-b);font-weight:700;font-size:18px">−60 to −20</span><span><strong style="color:var(--red-b)">Bearish</strong> — mostly negative signals. Caution with new buys. Consider reducing exposure.</span>
+      <span style="font-family:var(--mono);color:var(--red-b);font-weight:700;font-size:18px">−100 to −60</span><span><strong style="color:var(--red-b)">Strong Bearish</strong> — everything aligns downward. Preservation mode. Cash is a position.</span>
+    </div>
+  </div>
+
+  <p>Below the score, you'll see a <strong>component breakdown</strong> — the individual factors that contribute to the score. This is like seeing the ingredients in a recipe. If the score is −18 but three components are improving, the trend is getting better even though it's still negative.</p>
+
+  <div class="concept">
+    <strong>The trend of the score matters more than the absolute number.</strong> A score moving from −45 to −18 (improving) is more bullish than a score sitting at +10 (stagnant). Always look at last week's score to see the direction of change.
+  </div>
+</div>
+
+<!-- SECTION 4 -->
+<div class="section" id="changed">
+  <h2>4. "What changed" — the weekly diff</h2>
+  <p>If you read the report every week, this is the most valuable section. It shows you exactly what's different from last week in a before→after format:</p>
+
+  <div class="example">
+    <div class="example-title">Example diff</div>
+    <div style="display:grid;grid-template-columns:auto auto auto auto;gap:6px 14px;font-size:17px;align-items:center">
+      <span style="color:var(--muted)">Bias</span><span style="font-family:var(--mono);color:var(--dim);text-decoration:line-through">−45</span><span style="color:var(--green-b)">→</span><span style="font-family:var(--mono);font-weight:700;color:var(--green-b)">−18 ▲</span>
+      <span style="color:var(--muted)">VIX</span><span style="font-family:var(--mono);color:var(--dim);text-decoration:line-through">31.05</span><span style="color:var(--green-b)">→</span><span style="font-family:var(--mono);font-weight:700;color:var(--green-b)">23.87 ▲</span>
+      <span style="color:var(--muted)">MAs</span><span style="font-family:var(--mono);color:var(--dim)">Below all</span><span style="color:var(--gold)">→</span><span style="font-family:var(--mono);font-weight:500;color:var(--gold)">Below all ─</span>
+    </div>
+  </div>
+
+  <p><strong>Green arrows (▲)</strong> mean the metric improved. <strong>Red arrows (▼)</strong> mean it deteriorated. <strong>Gold dash (─)</strong> means no change. If you see three or more green arrows, the picture is improving meaningfully. If you see three or more red arrows, risk is rising.</p>
+</div>
+
+<!-- SECTION 5 -->
+<div class="section" id="levels">
+  <h2>5. Levels and confluence</h2>
+  <p>"Levels" are specific prices where we expect the market to react — either bouncing off them (support) or getting pushed back down (resistance). Think of them as floors and ceilings in a building.</p>
+
+  <p><strong>Support</strong> = a floor below the current price. Buyers tend to step in here.</p>
+  <p><strong>Resistance</strong> = a ceiling above the current price. Sellers tend to appear here.</p>
+
+  <h3>What is confluence?</h3>
+  <p>This is the core idea that makes this report different. A single level is interesting. A level where <strong>multiple independent indicators agree</strong> is powerful. That's confluence.</p>
+
+  <div class="concept">
+    <strong>Think of it this way:</strong> If one friend tells you a restaurant is good, you might try it. If five friends who don't know each other all recommend the same restaurant, you're definitely going. Confluence scoring works the same way. A price level that's flagged by Fibonacci AND a moving average AND a pivot point is much more reliable than one flagged by a single indicator.
+  </div>
+
+  <p>In the level map, you'll see a number on the right side of each row. That's the <strong>confluence score</strong>:</p>
+  <div class="example">
+    <div class="example-title">Reading the level map</div>
+    <div class="demo-level hot"><span class="nm" style="color:var(--blue)">200 DMA</span><span class="px">$662.54</span><span class="dst" style="color:var(--red-b)">+1.0%</span><span class="sc" style="background:var(--gold-d);color:var(--gold)">6</span></div>
+    <div class="demo-level"><span class="nm" style="color:var(--cyan)">R1 Pivot</span><span class="px">$660.98</span><span class="dst" style="color:var(--red-b)">+0.8%</span><span class="sc" style="background:#384050;color:var(--muted)">2</span></div>
+    <div style="font-size:15px;color:var(--muted);margin-top:10px;line-height:1.6">
+      The 200 DMA at $662.54 has a score of <strong style="color:var(--gold)">6</strong> (highlighted in gold) — this is a high-confluence level where multiple indicators converge. The R1 Pivot at $660.98 has a score of <strong style="color:var(--muted)">2</strong> (gray) — less significant on its own.
+      The percentage shows how far away the level is from the current price. <strong style="color:var(--red-b)">Red percentages</strong> are above (resistance). <strong style="color:var(--green-b)">Green percentages</strong> are below (support).
+    </div>
+  </div>
+
+  <p><strong>Rule of thumb:</strong> Levels scored 5 or higher are the most reliable. Levels scored 1-2 may or may not matter. Focus your attention on the highlighted (gold-bordered) rows.</p>
+</div>
+
+<!-- SECTION 6 -->
+<div class="section" id="fibonacci">
+  <h2>6. Fibonacci levels</h2>
+  <p>Fibonacci retracement is one of the oldest and most widely used tools in trading. It identifies natural "resting points" where price tends to pause or reverse during a pullback.</p>
+
+  <p><strong>How it works:</strong> Take a big move — say the market rallied from $482 to $698 (a move of $216). Fibonacci says that when the market pulls back from that rally, it's likely to find support at these specific percentages of the move:</p>
+
+  <div class="example">
+    <div class="example-title">Fibonacci retracement levels explained</div>
+    <div style="font-size:16px;color:var(--muted);line-height:2">
+      <div><strong style="color:var(--green-b)">23.6%</strong> — A shallow pullback. The trend is still very strong. "Barely a dip."</div>
+      <div><strong style="color:var(--green-b)">38.2%</strong> — A moderate pullback. Healthy correction. Most common bounce level.</div>
+      <div><strong style="color:var(--gold)">50.0%</strong> — Half the move has been retraced. This is the "make or break" zone.</div>
+      <div><strong style="color:var(--red-b)">61.8%</strong> — A deep pullback. The trend is weakening. Buyers need to show up here.</div>
+      <div><strong style="color:var(--red-b)">78.6%</strong> — Almost the entire move has been retraced. Last line of defense.</div>
+    </div>
+  </div>
+
+  <div class="concept">
+    <strong>Why do these numbers work?</strong> They're based on the golden ratio (1.618), a mathematical relationship found throughout nature — in seashells, sunflower spirals, and galaxy formations. In markets, so many traders use these levels that they become self-fulfilling. When thousands of traders set buy orders at the 38.2% retracement, the collective action creates real support at that price.
+  </div>
+
+  <p>In the report, the <strong>Fibonacci map</strong> at the bottom shows all the retracement levels from the most recent major swing. Green-bordered cards are active support/resistance. Gold-bordered means the level was recently broken or reclaimed — pay extra attention to these.</p>
+</div>
+
+<!-- SECTION 7 -->
+<div class="section" id="moving-averages">
+  <h2>7. Moving averages</h2>
+  <p>A moving average (MA) is simply the average closing price over the past N days. It smooths out the daily noise and shows you the trend direction.</p>
+
+  <div class="example">
+    <div class="example-title">The three key moving averages</div>
+    <div style="font-size:16px;color:var(--muted);line-height:2">
+      <div><span style="display:inline-block;width:14px;height:4px;background:var(--gold);border-radius:2px;margin-right:8px;vertical-align:middle"></span><strong style="color:var(--gold)">20-day MA</strong> — Short-term trend. Traders use this for timing entries. If price is above the 20 DMA, the short-term trend is up.</div>
+      <div><span style="display:inline-block;width:14px;height:4px;background:var(--purple);border-radius:2px;margin-right:8px;vertical-align:middle"></span><strong style="color:var(--purple)">50-day MA</strong> — Medium-term trend. Swing traders watch this closely. Popular for identifying "the dip to buy."</div>
+      <div><span style="display:inline-block;width:14px;height:4px;background:var(--blue);border-radius:2px;margin-right:8px;vertical-align:middle"></span><strong style="color:var(--blue)">200-day MA</strong> — Long-term trend. The big one. Institutions and fund managers use this to determine whether the market is in an uptrend or downtrend. Price above the 200 DMA = healthy market. Price below = caution.</div>
+    </div>
+  </div>
+
+  <div class="concept">
+    <strong>The simplest rule in the report:</strong> When price is above all three MAs (20 above 50 above 200), the market is in a healthy uptrend. When price is below all three, the market is in a downtrend. When they're mixed (price above some, below others), the market is in transition. The bias score captures this automatically, but now you know what's behind it.
+  </div>
+</div>
+
+<!-- SECTION 8 -->
+<div class="section" id="setups">
+  <h2>8. Trade setups</h2>
+  <p>Every report includes two trade scenarios — <strong style="color:var(--green-b)">bullish</strong> and <strong style="color:var(--red-b)">bearish</strong>. This isn't because we don't know which way the market will go (though we don't!). It's because <strong>preparing for both outcomes is better than predicting one.</strong></p>
+
+  <p>Each setup has four components:</p>
+  <div style="font-size:17px;color:var(--muted);line-height:2.2;margin:12px 0">
+    <div><strong style="color:var(--white)">Trigger</strong> — What has to happen before you consider the trade. "Close above $662" means don't do anything until that happens.</div>
+    <div><strong style="color:var(--white)">Entry</strong> — The price to buy (or sell). This is where you get in.</div>
+    <div><strong style="color:var(--green-b)">Target</strong> — Where you plan to take profit. The expected destination of the move.</div>
+    <div><strong style="color:var(--red-b)">Stop</strong> — Where you get out if you're wrong. This is your safety net. It limits your maximum loss.</div>
+  </div>
+
+  <div class="concept">
+    <strong>Critical concept — the trigger is NOT the entry.</strong> The trigger tells you the setup is active. Many times the trigger won't happen at all — and that's fine. It means neither setup played out that week, and you sit in cash. Sitting in cash when there's no clear setup IS the right trade.
+  </div>
+
+  <h3>Conviction rating (the dots)</h3>
+  <p>Below each setup, you'll see a row of 5 dots. Filled dots = conviction level. Think of it as confidence:</p>
+  <div style="font-size:16px;color:var(--muted);line-height:2">
+    <div><strong>5/5</strong> — Everything aligns. High confidence. Full position size.</div>
+    <div><strong>3/5</strong> — Decent setup but some uncertainty. Half position or wait for confirmation.</div>
+    <div><strong>1/5</strong> — Speculative. Only for experienced traders with tight stops.</div>
+  </div>
+</div>
+
+<!-- SECTION 9 -->
+<div class="section" id="rr">
+  <h2>9. Risk/reward ladders</h2>
+  <p>The visual R:R ladder shows each setup as a stack of horizontal bars:</p>
+
+  <div class="example">
+    <div class="example-title">Reading the R:R visual</div>
+    <div style="font-size:16px;color:var(--muted);line-height:2;margin:8px 0">
+      <div><span style="display:inline-block;width:40px;height:4px;background:var(--green);border-radius:2px;margin-right:10px;vertical-align:middle"></span> <strong style="color:var(--green-b)">Green bars</strong> = reward space (the profit side)</div>
+      <div><span style="display:inline-block;width:40px;height:4px;background:var(--white);border-radius:2px;margin-right:10px;vertical-align:middle"></span> <strong>White bar</strong> = entry (where you get in)</div>
+      <div><span style="display:inline-block;width:40px;height:4px;background:var(--red);border-radius:2px;margin-right:10px;vertical-align:middle"></span> <strong style="color:var(--red-b)">Red bar</strong> = risk space (the loss side)</div>
+    </div>
+    <div style="font-size:16px;color:var(--muted);margin-top:10px">
+      The <strong>R:R ratio</strong> (like "1:2.1") means for every $1 you risk, you expect to make $2.10. <strong>Higher is better.</strong> Most traders look for at least 1:2 — meaning the potential reward is at least twice the risk. If the R:R is below 1:1, the trade isn't worth taking.
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 10 -->
+<div class="section" id="intermarket">
+  <h2>10. Intermarket heat strip</h2>
+  <p>The colored bar of boxes shows what other markets are doing. This matters because markets are interconnected — stocks, bonds, gold, oil, and credit all tell a story together.</p>
+
+  <div class="example">
+    <div class="example-title">Common patterns and what they mean</div>
+    <div style="font-size:16px;color:var(--muted);line-height:2.2">
+      <div><strong style="color:var(--green-b)">All green, gold red</strong> → Risk-on. Money flowing into stocks, out of safe havens. Bullish.</div>
+      <div><strong style="color:var(--red-b)">All red, gold green</strong> → Risk-off. Money fleeing stocks into gold. Fear. Bearish.</div>
+      <div><strong style="color:var(--red-b)">Stocks red, bonds red, gold green</strong> → Stagflation fear or geopolitical stress. More dangerous than a normal selloff.</div>
+      <div><strong style="color:var(--gold)">Mixed</strong> → No clear theme. Market is undecided. Be patient.</div>
+    </div>
+  </div>
+
+  <p><strong>Key symbols to know:</strong> SPY = stocks. TLT = bonds. GLD = gold. VIX = fear gauge (higher = more fear). HYG = corporate credit (if this is selling off, real trouble is brewing). XLE = energy/oil.</p>
+</div>
+
+<!-- SECTION 11 -->
+<div class="section" id="oscillators">
+  <h2>11. RSI, MACD, and momentum</h2>
+  <p>These are tools that measure the "energy" behind a move. Is the rally running out of steam? Is the selloff overdone?</p>
+
+  <h3>RSI (Relative Strength Index)</h3>
+  <p>A number from 0 to 100. Think of it as a speedometer for momentum.</p>
+  <div style="font-size:16px;color:var(--muted);line-height:2;margin:8px 0">
+    <div><strong style="color:var(--red-b)">Above 70</strong> — Overbought. The rally is stretched. Doesn't mean it will reverse, but it might pause.</div>
+    <div><strong style="color:var(--gold)">40 to 60</strong> — Neutral zone. No extreme either way.</div>
+    <div><strong style="color:var(--green-b)">Below 30</strong> — Oversold. The selloff is stretched. Bounce becomes more likely.</div>
+  </div>
+
+  <h3>MACD</h3>
+  <p>Tells you whether momentum is accelerating or fading. The key things to watch: is it above or below zero (positive = bullish momentum, negative = bearish)? Is the histogram growing or shrinking (growing = momentum strengthening)?</p>
+
+  <h3>VIX</h3>
+  <p>The "fear index." It measures how much volatility options traders expect over the next 30 days.</p>
+  <div style="font-size:16px;color:var(--muted);line-height:2;margin:8px 0">
+    <div><strong style="color:var(--green-b)">Below 15</strong> — Very calm. Complacency. Sometimes a contrarian warning sign.</div>
+    <div><strong style="color:var(--gold)">15–25</strong> — Normal range. Healthy market.</div>
+    <div><strong style="color:var(--red-b)">25–35</strong> — Elevated fear. Caution warranted. But often near the end of selloffs.</div>
+    <div><strong style="color:var(--red-b)">Above 35</strong> — Extreme fear. Historically, buying when VIX spikes above 35 has been profitable on a 3-6 month horizon (not always immediately, but eventually).</div>
+  </div>
+</div>
+
+<!-- SECTION 12 -->
+<div class="section" id="alerts">
+  <h2>12. Alerts and invalidation</h2>
+  <p>The alerts section flags the most important things to watch during the week. But the most important concept is <strong>invalidation</strong>.</p>
+
+  <div class="concept">
+    <strong>Invalidation</strong> is the price level that proves your thesis wrong. Every setup in the report has one. If you're bullish and SPY drops below the invalidation level, you're no longer bullish — you change your mind and act accordingly. <strong>Changing your mind when the evidence changes is not weakness. It's discipline.</strong>
+  </div>
+
+  <p>The report shows invalidation levels with clear labels:</p>
+  <div style="font-size:16px;color:var(--muted);line-height:2;margin:8px 0">
+    <div><strong style="color:var(--green-b)">Bull confirmation</strong> — "If price closes above X, the bullish case is confirmed."</div>
+    <div><strong style="color:var(--red-b)">Bounce failure / Bear acceleration</strong> — "If price closes below Y, the bearish case takes over."</div>
+  </div>
+</div>
+
+<!-- SECTION 13 -->
+<div class="section" id="colors">
+  <h2>13. Color guide</h2>
+  <p>Every color in the report has a consistent meaning. Once you learn the code, you can scan the entire report by color alone.</p>
+
+  <div class="example">
+    <div class="example-title">Color vocabulary</div>
+    <div class="color-row"><div class="color-swatch" style="background:var(--green-b)"></div><span style="color:var(--muted)"><strong style="color:var(--green-b)">Green</strong> — Bullish signal. Support held. Good for longs. Improving.</span></div>
+    <div class="color-row"><div class="color-swatch" style="background:var(--red-b)"></div><span style="color:var(--muted)"><strong style="color:var(--red-b)">Red</strong> — Bearish signal. Resistance hit. Risk. Deteriorating.</span></div>
+    <div class="color-row"><div class="color-swatch" style="background:var(--gold)"></div><span style="color:var(--muted)"><strong style="color:var(--gold)">Gold / Amber</strong> — Caution. Decision point. Watch closely. Could go either way.</span></div>
+    <div class="color-row"><div class="color-swatch" style="background:var(--blue)"></div><span style="color:var(--muted)"><strong style="color:var(--blue)">Blue</strong> — Informational. The 200 DMA. Neutral data points.</span></div>
+    <div class="color-row"><div class="color-swatch" style="background:var(--purple)"></div><span style="color:var(--muted)"><strong style="color:var(--purple)">Purple</strong> — The 50 DMA. Medium-term reference.</span></div>
+    <div class="color-row"><div class="color-swatch" style="background:var(--cyan)"></div><span style="color:var(--muted)"><strong style="color:var(--cyan)">Cyan</strong> — Pivot points. Calculated daily support/resistance.</span></div>
+    <div class="color-row"><div class="color-swatch" style="background:var(--white)"></div><span style="color:var(--muted)"><strong>White</strong> — Current price. Your position. The "you are here" marker.</span></div>
+  </div>
+</div>
+
+<!-- SECTION 14 -->
+<div class="section" id="glossary">
+  <h2>14. Glossary</h2>
+
+  <div class="glossary-item"><div class="glossary-term">ATH (All-Time High)</div><div class="glossary-def">The highest price the asset has ever reached. For SPY, this was $697.84 on January 28, 2026.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">Bearish</div><div class="glossary-def">Expecting prices to go down. Named after how a bear attacks — swiping downward.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">Bullish</div><div class="glossary-def">Expecting prices to go up. Named after how a bull attacks — thrusting upward.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">Confluence</div><div class="glossary-def">When multiple independent indicators point to the same price as significant. The more confluence, the more likely the level matters.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">DMA (Day Moving Average)</div><div class="glossary-def">"20 DMA" means the average closing price over the past 20 trading days. "200 DMA" is the past 200 days. Used to identify trends.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">Fibonacci retracement</div><div class="glossary-def">A method of identifying potential support/resistance levels based on the golden ratio (23.6%, 38.2%, 50%, 61.8%). These levels mark where price tends to pause during a pullback.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">Invalidation</div><div class="glossary-def">The price level that proves a trade thesis wrong. If price reaches the invalidation level, exit the trade.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">MACD</div><div class="glossary-def">Moving Average Convergence Divergence. A momentum indicator. Positive = bullish momentum. Negative = bearish. Watch for crossovers.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">Overbought / Oversold</div><div class="glossary-def">Overbought means the rally has been so strong that a pause or pullback is likely (RSI above 70). Oversold means the selloff has been so severe that a bounce is likely (RSI below 30). Neither guarantees a reversal.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">Pivot points</div><div class="glossary-def">Mathematically calculated support (S1, S2, S3) and resistance (R1, R2, R3) levels based on yesterday's high, low, and close. Used by day traders and swing traders.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">R:R (Risk/Reward ratio)</div><div class="glossary-def">How much you stand to make vs how much you could lose. R:R of 1:2 means you risk $1 to potentially make $2. Higher is better. Most traders want at least 1:2.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">Resistance</div><div class="glossary-def">A price ceiling where selling pressure tends to push the price back down. Like a glass ceiling the market keeps bumping against.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">RSI</div><div class="glossary-def">Relative Strength Index. Measures how fast and far price has moved recently, on a scale of 0-100. Above 70 = stretched upward. Below 30 = stretched downward.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">SPY</div><div class="glossary-def">The SPDR S&P 500 ETF. It tracks the 500 largest US companies. When people say "the market," they usually mean the S&P 500 / SPY.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">Stop-loss</div><div class="glossary-def">A predetermined price where you exit a losing trade to limit your loss. Setting stops before entering a trade is the most important risk management habit.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">Support</div><div class="glossary-def">A price floor where buying pressure tends to push the price back up. Like a trampoline the market keeps bouncing off of.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">Swing trader</div><div class="glossary-def">Someone who holds positions for days to weeks (not minutes like a day trader, and not months like an investor). This report is designed primarily for swing traders.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">V-bottom</div><div class="glossary-def">A sharp drop followed by an equally sharp recovery, forming a "V" shape on the chart. Can signal the end of a selloff, but needs confirmation (holding above key levels).</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">VIX</div><div class="glossary-def">The CBOE Volatility Index, often called the "fear index." It measures expected market volatility. Higher VIX = more fear. Extreme VIX spikes (above 35) have historically been good long-term buying opportunities.</div></div>
+
+  <div class="glossary-item"><div class="glossary-term">Volume</div><div class="glossary-def">The number of shares traded. High volume on a move = conviction (real buyers or sellers). Low volume on a move = skepticism (the move may not last).</div></div>
+</div>
+
+<!-- SECTION 15 -->
+<div class="section" id="how-to-use">
+  <h2>15. How to actually use this report on Monday morning</h2>
+
+  <p>Here's a simple, step-by-step routine:</p>
+
+  <div style="font-size:17px;color:var(--muted);line-height:2.2;margin:16px 0">
+    <p><strong style="color:var(--gold);font-size:20px">Sunday night (5 minutes)</strong></p>
+    <p>1. Read the verdict line at the top. What's the week's theme?</p>
+    <p>2. Glance at the gauge. Which zone are we in?</p>
+    <p>3. Check the bias score and "what changed." Is the picture improving or deteriorating?</p>
+    <p>4. Look at the two trade setups. Know the trigger levels before the market opens.</p>
+
+    <p style="margin-top:16px"><strong style="color:var(--gold);font-size:20px">Monday morning (2 minutes)</strong></p>
+    <p>5. Check the opening price. Has either trigger been hit?</p>
+    <p>6. If yes → consider acting on the setup.</p>
+    <p>7. If no → wait. No trigger = no trade. Patience is a position.</p>
+
+    <p style="margin-top:16px"><strong style="color:var(--gold);font-size:20px">During the week (as needed)</strong></p>
+    <p>8. If you're in a trade, know your stop and targets. Don't move them.</p>
+    <p>9. If an invalidation level is hit, change your mind. Don't argue with price.</p>
+    <p>10. If nothing happens, that's fine. Not every week has a trade.</p>
+  </div>
+
+  <div class="concept">
+    <strong>The most important skill this report teaches is patience.</strong> You don't need to trade every week. You don't need to be right every time. You need to wait for high-confluence setups, manage your risk with stops, and let the R:R work over time. If you only take trades with confluence scores above 4 and R:R above 1:2, you will do well over the long run — even if you're wrong 40% of the time.
+  </div>
+
+  <p style="margin-top:24px;font-size:20px;color:var(--white);font-weight:600">Questions? Feedback? Reach out on X:</p>
+  <p><a href="https://x.com/t2smbw" style="color:var(--gold);font-family:var(--mono);font-size:18px">@t2smbw</a> · <a href="https://x.com/t2make" style="color:var(--muted);font-family:var(--mono);font-size:18px">@t2make</a></p>
+</div>
+
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<div class="footer"><div class="container">
+  <div class="mark"><span class="g">M</span>B<span class="g">W</span></div>
+  <div class="links">
+    <a href="/">Weekly reports</a>
+    <a href="https://x.com/t2smbw" target="_blank">@t2smbw</a>
+    <a href="https://x.com/t2make" target="_blank">@t2make</a>
+  </div>
+  <div class="legal">Not financial advice. For educational and informational purposes only.<br>Past performance does not guarantee future results.</div>
+</div></div>
+
+</body>
+</html>

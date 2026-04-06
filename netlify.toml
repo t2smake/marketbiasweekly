@@ -26,3 +26,13 @@
   for = "/social/*"
   [headers.values]
     Cache-Control = "public, max-age=86400"
+
+[[redirects]]
+  from = "/how-to-read"
+  to = "/guide.html"
+  status = 200
+
+[[redirects]]
+  from = "/user-guide"
+  to = "/guide.html"
+  status = 200

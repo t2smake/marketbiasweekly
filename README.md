@@ -3,7 +3,7 @@
 Weekly SPY technical analysis with Fibonacci confluence scoring, directional bias, and actionable trade setups.
 
 **Live site:** [marketbiasweekly.netlify.app](https://marketbiasweekly.netlify.app) (or your custom domain)
-**Follow:** [x.com/MktBiasWeekly](https://x.com/MktBiasWeekly)
+**Follow:** [x.com/t2smbw](https://x.com/t2smbw) · [x.com/t2make](https://x.com/t2make)
 
 ---
 
